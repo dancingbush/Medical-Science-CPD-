@@ -1,0 +1,7 @@
+{
+  "name": "LabCPD",
+  "integrations": {
+    "capacitor": {}
+  },
+  "type": "angular"
+}
