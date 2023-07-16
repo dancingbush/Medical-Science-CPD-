@@ -7,14 +7,18 @@ import { ExploreContainerComponentModule } from '../explore-container/explore-co
 
 import { Tab1PageRoutingModule } from './tab1-routing.module';
 
+import { CircularChartComponent } from '../circular-chart/circular-chart.component';
+import { NgChartsModule } from 'ng2-charts';
+
 @NgModule({
   imports: [
     IonicModule,
     CommonModule,
     FormsModule,
     ExploreContainerComponentModule,
-    Tab1PageRoutingModule
+    Tab1PageRoutingModule,
+    NgChartsModule
   ],
-  declarations: [Tab1Page]
+  declarations: [Tab1Page, CircularChartComponent]
 })
 export class Tab1PageModule {}

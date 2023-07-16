@@ -6,9 +6,13 @@ import { FormsModule } from '@angular/forms';
 import { TabsPageRoutingModule } from './tabs-routing.module';
 
 import { TabsPage } from './tabs.page';
+import { Chart } from 'chart.js';
+import { NgChartsModule } from 'ng2-charts';
+import { BarChartComponentComponent } from '../components/bar-chart-component/bar-chart-component.component';
 
 @NgModule({
   imports: [
+    NgChartsModule,
     IonicModule,
     CommonModule,
     FormsModule,
