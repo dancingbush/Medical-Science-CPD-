@@ -17,6 +17,18 @@ const routes: Routes = [
   {
     path: 'pie-chart',
     loadChildren: () => import('./components/pie-chart-component/pie-chart.module').then (m => m.PieChartModule)
+  },
+  // {
+  //   path: 'tab4',
+  //   loadChildren: () => import('./tab4/tab4.module').then( m => m.Tab4PageModule)
+  // },
+  {
+    path: 'tab5',
+    loadChildren: () => import('./tab5/tab5.module').then( m => m.Tab5PageModule)
+  },
+  {
+    path: 'event-modal',
+    loadChildren: () => import('./services/event-modal/event-modal.module').then( m => m.EventModalPageModule)
   }
 ];
 @NgModule({

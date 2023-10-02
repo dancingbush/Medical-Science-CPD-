@@ -25,51 +25,41 @@
 @import "@ionic/angular/css/text-transformation.css";
 @import "@ionic/angular/css/flex-utils.css";
 
-/* Style charts */
-.header {
-    --background: #FFFFFF; /* White background for header */
+// http://ionicframework.com/docs/theming/
+@import url('https://fonts.googleapis.com/css?family=Rubik:300,400,500,700');
+
+@import "~@ionic/angular/css/core.css";
+@import "~@ionic/angular/css/normalize.css";
+@import "~@ionic/angular/css/structure.css";
+@import "~@ionic/angular/css/typography.css";
+
+@import "~@ionic/angular/css/padding.css";
+@import "~@ionic/angular/css/float-elements.css";
+@import "~@ionic/angular/css/text-alignment.css";
+@import "~@ionic/angular/css/text-transformation.css";
+@import "~@ionic/angular/css/flex-utils.css";
+
+// EXTRA GLOBAL STYLES
+// Add custom Ionic Colors
+@import "theme/custom-ion-colors.scss";
+// Add base app styles
+@import "theme/app-defaults.scss";
+// Add base shell styles
+@import "theme/shell-defaults.scss";
+
+.customAlertBox{
+    --backdrop-opacity: 0.2;
+    --background: linear-gradient(90deg, rgba(165, 255, 192, 1) 1%, rgba(0, 212, 255, 1)100%);
+    justify-content: center;
   }
-  
-  .content-container {
-    background: linear-gradient(to bottom, #4a4a50, #151517); /* Gradient blue background */
-    height: 90vh;
+
+  .customToaster {
+    --background: linear-gradient(black, white);
   }
-  
-  .content {
-    --background: transparent; /* Transparent background for ion-content */
+
+  .loader-css-class {
+    --background: linear-gradient (black, grey);
+    --spinner-color: #ffffff;
+    border-radius: 55px;
+
   }
-  
-  
-
-  /* Card holders for charts */
-  ion-card {
-    --background: #181515;
-    --color: #9efff0;
-}
-
-ion-card-title {
-    --color: #52ffe4;
-}
-
-ion-card-subtitle {
-    --color: #d1fff8;
-}
-
-/*  div is introduced to contain the chart components. 
-This div is styled to display the components in a column layout, 
-center align them, and add a margin around them. */
-
-.chart-container{
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 20px;
-}
-
-.chart-component{
-    background-color: #353434;
-    border-radius: 10px;
-    width: 80%; /* Adjust the width as desired */
-    max-width: 600px; /* Optional: Set a maximum width for the chart components */
-    margin-bottom: 20px; /* Optional: Add some spacing between the chart components */
-}
