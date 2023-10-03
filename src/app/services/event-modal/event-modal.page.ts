@@ -7,8 +7,8 @@ import { DataService } from '../dataservice';
 /*
 THS WAS TO BE USED WITH TAB4 AS A SINGLE ADD EVENT
 BUT CIRCULAR DEPEND WITH DATA SERVICE USED IN TAB3 EVENTS- COME BACK TO
-This componment opens a modal when called from TAB4.
-TAB4 displays all CPD events, and gives user choice of adding, editing,
+This componment opens a modal when called from TAB3.
+TAB3 displays all CPD events, and gives user choice of adding, editing,
 or delting an event. This is passed via Modal object to this class via @Inject
 decorator.
 This modal calls our dataservice to handle trasncation with back CRUD scripst
@@ -42,7 +42,7 @@ export class EventModalPage implements OnInit {
     from parnet class (List tab) for editing an event
     */
    if (this.editEvent){
-    console.log("tab4 ADD passed event to edit form List: " + this.editEvent.title)
+    console.log("tab3 ADD passed event to edit form List: " + this.editEvent.title)
     this.isEdit = true;
     this.uploadEvent = this.editEvent;
   }

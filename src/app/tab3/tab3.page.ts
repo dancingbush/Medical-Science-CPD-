@@ -9,6 +9,7 @@ import { NativePageTransitions, NativeTransitionOptions} from '@awesome-cordova-
 import { StorageService } from '../services/storageservice.service';
 import { debounce, debounceTime } from 'rxjs';
 import { EventModalPage } from '../services/event-modal/event-modal.page';
+import { DiaplyEventModalPage } from '../services/diaply-event-modal/diaply-event-modal.page';
 //import { Storage } from '@ionic/storage';//?out of use
 //import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
@@ -344,7 +345,7 @@ removeEvent(id: number){
       // Open modal to display event inof overlay
       console.log("tabs3.page: opening event model")
       this.modalCtrl.create({
-        component: EventModalPage,
+        component: DiaplyEventModalPage,
         componentProps: {event : event} // Pass the event to the modal
       })
       .then(modal => {

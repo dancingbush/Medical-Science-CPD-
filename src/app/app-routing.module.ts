@@ -29,6 +29,10 @@ const routes: Routes = [
   {
     path: 'event-modal',
     loadChildren: () => import('./services/event-modal/event-modal.module').then( m => m.EventModalPageModule)
+  },
+  {
+    path: 'diaply-event-modal',
+    loadChildren: () => import('./services/diaply-event-modal/diaply-event-modal.module').then( m => m.DiaplyEventModalPageModule)
   }
 ];
 @NgModule({
