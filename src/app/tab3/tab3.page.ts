@@ -10,6 +10,7 @@ import { StorageService } from '../services/storageservice.service';
 import { debounce, debounceTime } from 'rxjs';
 import { EventModalPage } from '../services/event-modal/event-modal.page';
 import { DiaplyEventModalPage } from '../services/diaply-event-modal/diaply-event-modal.page';
+import { IonItemSliding } from '@ionic/angular';
 //import { Storage } from '@ionic/storage';//?out of use
 //import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
@@ -31,10 +32,12 @@ export class Tab3Page {
   private cacheTestData!: string;
   private searchForEvent!: string;
   public scrollToTop : boolean = false;
+  //public slidingItem : IonItemSliding = any;
 
 
 
   constructor(private service : DataService,
+              //private slidingItem : IonItemSliding,
               private alertCtrl : AlertController,
               private modalCtrl: ModalController,
               private menu : MenuController,
@@ -383,16 +386,17 @@ removeEvent(id: number){
       });
     }
 
-    updateEvent(event: cpdEvent){
+    updateEvent(event: cpdEvent, slidingItem : IonItemSliding){
        /* We need to pass the event  object ot the 
       * EventModalPage with modalCtrl
       * And we also handle the retuned data from Event Modal Page
+      * Use slidingItem to close the HTML slider back to normal firm Edit
       */
-     console.log("tabs3.pg- list: updae event, passing this to EventModal page: " + event);
+     console.log("tabs3.pg- list: updae event, passing this to EventModal page: " + event.title);
 
      this.modalCtrl.create({
       component: EventModalPage,
-      componentProps: {event:event}
+      componentProps: {editEvent:event}
      })
      .then(modal => {
       modal.present();
@@ -409,6 +413,10 @@ removeEvent(id: number){
           return std;
         });
       });
+      // Return HTM slider back to normal posistion
+      if (slidingItem){
+      slidingItem.close()
+      }
     }// updateEvent
     
     scrollToTopSpeed(){

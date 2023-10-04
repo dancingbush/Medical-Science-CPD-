@@ -28,21 +28,40 @@ export class EventModalPage implements OnInit {
 
   @Input() editEvent!: cpdEvent; // event sent form calling class, tabs3
   isEdit = false; // convert to true if we are passed data to edit form calling class (list)
-
-  // CPD eveent properties
+  /*
+  public passedEventData = {
+    id: 0,
+    title: '',
+    description : '',
+    hours : 0,
+    startdate: '',
+    endDate: '',
+    eventOrganisers: '',
+    CPDPoints: 0,
+    compentancyCat: '',
+    reflection: '',
+    learningPlan : '',
+    certificate: ''
+  }
+  */
+  // the veny to upload to backend
   uploadEvent! : cpdEvent;
 
-  constructor(private modalCtrl : ModalController, 
+  constructor(
+    private modalCtrl : ModalController, 
     //private service : DataService CASUES CIRCULAR DEPENDANCY IN TAB3 EVENTS
-    ) { }
+    ) { 
+    }
 
   ngOnInit() {
     /*
     If 'cpdEvent is not null it means a cpdEvent has been passed 
     from parnet class (List tab) for editing an event
     */
+ 
+   console.log("evemt modeal ngOnit, event form tab3 = " + this.editEvent.title);
    if (this.editEvent){
-    console.log("tab3 ADD passed event to edit form List: " + this.editEvent.title)
+    console.log("event-modal NgOnIt: tab3 ADD passed event to edit form List: " + this.editEvent.title)
     this.isEdit = true;
     this.uploadEvent = this.editEvent;
   }
@@ -59,6 +78,7 @@ export class EventModalPage implements OnInit {
   onSubmit(form : NgForm) {
     console.log("Cpd event fomr submitted");
     const event = form.value;
+    this.modalCtrl.dismiss(this.editEvent,'Updated');
 /*
     if (this.editEvent){
       console.log("event-mdal: on Submit- updating CPD Event ID: ", this.editEvent.id);

@@ -7,7 +7,7 @@ Make interfcaes / data types availble globally
 export interface cpdEvent {
     id : number,
     title : string,
-    description: String,
+    description: string,
     hours: number,
     startdate: string,
     endDate: string,

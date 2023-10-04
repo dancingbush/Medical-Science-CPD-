@@ -43,7 +43,7 @@
       <ion-item-group>
         <!--use cdkVirtualFor instead of *ngFor for cdk virtal scrolling-->
         <!-- <ion-item-sliding *ngFor="let test of tests"> -->
-          <ion-item-sliding *cdkVirtualFor="let event of events; let isOdd=odd" [class.odd]="isOdd">
+          <ion-item-sliding *cdkVirtualFor="let event of events; let isOdd=odd " [class.odd]="isOdd" #slidingItem>
             <ion-item class="notification-item" lines="none">
               <ion-avatar slot="start">
                 <img src="./assets/tests/tests6.jpg">
@@ -62,7 +62,7 @@
             <ion-item-option color="danger" (click)="removeEvent(event.id)">
               <ion-icon name="trash"></ion-icon>
             </ion-item-option>
-            <ion-item-option color="success" (click)="updateEvent(event)">
+            <ion-item-option color="success" (click)="updateEvent(event, slidingItem )">
               Edit
             </ion-item-option>
             </ion-item-options>
