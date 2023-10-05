@@ -29,8 +29,8 @@ export class DataService {
           title : "Jounral Club",
           description: "Bone MArrow Morphology",
         hours: 0.5,
-          startdate: '11/9/23',
-      endDate: '11/9/23',
+          startdate: new Date('11/9/23'),
+      endDate: new Date('11/9/23'),
       eventOrganisers: "SVUH HAematology",
       CPDPoints: 1,
       compentancyCat: "Internal",
@@ -43,8 +43,8 @@ export class DataService {
           title : "MDT",
           description: "Intresting Cases ",
         hours: 0.5,
-          startdate: '11/9/23',
-      endDate: '11/9/23',
+        startdate: new Date('11/9/23'),
+      endDate: new Date('11/9/23'),
       eventOrganisers: "SVUH HAematology",
       CPDPoints: 1,
       compentancyCat: "Internal",
@@ -57,8 +57,8 @@ export class DataService {
           title : "Histology MDT",
           description: "Haem Obc Annes Ward ",
         hours: 1.5,
-          startdate: '11/10/23',
-      endDate: '11/10/23',
+          startdate: new Date('11/10/23'),
+      endDate: new Date('11/10/23'),
       eventOrganisers: "SVUH HAematology",
       CPDPoints: 2,
       compentancyCat: "Internal",
@@ -96,8 +96,16 @@ export class DataService {
 
   public createEvent (newEvent : cpdEvent) : Observable<any>{
     console.log("Dataservice: crete new event of : ",  newEvent.title);
+    
     return this.http.post(this.dateBaseURL, newEvent);
 
+  }
+
+  public createNewEntMockData(newEvent : cpdEvent) : cpdEvent[]{
+    // Use fo mock event testing
+    
+    this.getMockCpdEvents().push(newEvent);
+    return this.getMockCpdEvents();
   }
 
   public updateEvent (event : cpdEvent, id : number){
@@ -112,8 +120,16 @@ export class DataService {
   }
 
   public deleteEvent(id : number) {
+    
     console.log("dataservice: deleting event: ", id);
     return this.http.delete(this.dateBaseURL + '/?id=' + id);
   }
 
+  public deletMockEvent(id : number){
+    //mock event testing
+
+    console.log("dataservice- delte mock event testing");
+    let modeifeMockEvents = this.getMockCpdEvents().filter(cpdEvent => cpdEvent.id !== id);
+    return modeifeMockEvents;
+  }
 }

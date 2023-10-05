@@ -28,14 +28,15 @@ export class EventModalPage implements OnInit {
 
   @Input() editEvent!: cpdEvent; // event sent form calling class, tabs3
   isEdit = false; // convert to true if we are passed data to edit form calling class (list)
-  /*
-  public passedEventData = {
+  public selectedDate: string = new Date().toISOString(); //ion date calender
+  public selectedEndDate : string = new Date().toISOString();
+  public   uploadEvent = {
     id: 0,
     title: '',
     description : '',
     hours : 0,
-    startdate: '',
-    endDate: '',
+    startdate: new Date(this.selectedDate),
+    endDate: new Date(this.selectedEndDate),
     eventOrganisers: '',
     CPDPoints: 0,
     compentancyCat: '',
@@ -43,9 +44,9 @@ export class EventModalPage implements OnInit {
     learningPlan : '',
     certificate: ''
   }
-  */
+  
   // the veny to upload to backend
-  uploadEvent! : cpdEvent;
+  //uploadEvent! : cpdEvent;
 
   constructor(
     private modalCtrl : ModalController, 
@@ -74,6 +75,7 @@ export class EventModalPage implements OnInit {
     this.modalCtrl.dismiss(null, "closed");
 
   }
+
 
   onSubmit(form : NgForm) {
     console.log("Cpd event fomr submitted");

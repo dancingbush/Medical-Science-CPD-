@@ -387,7 +387,9 @@ removeEvent(id: number){
     }
 
     updateEvent(event: cpdEvent, slidingItem : IonItemSliding){
-       /* We need to pass the event  object ot the 
+       /* 
+       * Rifgt slide - Edit Event
+       * We need to pass the event  object ot the 
       * EventModalPage with modalCtrl
       * And we also handle the retuned data from Event Modal Page
       * Use slidingItem to close the HTML slider back to normal firm Edit

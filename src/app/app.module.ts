@@ -29,6 +29,7 @@ import { StorageService } from './services/storageservice.service';
   //declarations: [AppComponent],
   imports: [ 
     NgChartsModule,
+    IonicModule,
     ComponentsModule,
     HttpClientModule,
      BrowserModule,
