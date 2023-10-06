@@ -5,8 +5,7 @@ import { ModalController } from '@ionic/angular';
 import { DataService } from '../dataservice';
 
 /*
-THS WAS TO BE USED WITH TAB4 AS A SINGLE ADD EVENT
-BUT CIRCULAR DEPEND WITH DATA SERVICE USED IN TAB3 EVENTS- COME BACK TO
+
 This componment opens a modal when called from TAB3.
 TAB3 displays all CPD events, and gives user choice of adding, editing,
 or delting an event. This is passed via Modal object to this class via @Inject
@@ -50,7 +49,7 @@ export class EventModalPage implements OnInit {
 
   constructor(
     private modalCtrl : ModalController, 
-    //private service : DataService CASUES CIRCULAR DEPENDANCY IN TAB3 EVENTS
+    private service : DataService //CASUES CIRCULAR DEPENDANCY IN TAB3 EVENTS
     ) { 
     }
 
@@ -80,8 +79,8 @@ export class EventModalPage implements OnInit {
   onSubmit(form : NgForm) {
     console.log("Cpd event fomr submitted");
     const event = form.value;
-    this.modalCtrl.dismiss(this.editEvent,'Updated');
-/*
+    //this.modalCtrl.dismiss(this.editEvent,'Updated');
+
     if (this.editEvent){
       console.log("event-mdal: on Submit- updating CPD Event ID: ", this.editEvent.id);
       this.service.updateEvent(event, this.editEvent.id).subscribe(()=>{
@@ -91,6 +90,23 @@ export class EventModalPage implements OnInit {
       });
 
     }else{
+      // Create a Mock event for testing
+      console.log("Creating a Mock event dataservice : " + event.title);
+      this.service.createNewEntMockData(event).subscribe(response => {
+        console.log("event-modal new Evnet: go this array back form " 
+        + "dataservice mockevents:  " + response);
+        this.modalCtrl.dismiss(response,"created");
+      },
+      error=>{
+        console.log("event-moal: error creating new mock event: " + JSON.stringify(error));
+      },
+      ()=>{
+        console.log("event-modal- created new mock even, no errors.");
+      }
+      );
+      
+      // use this for backend remote DB
+      /*
       console.log("Event-modal page: Creating a new event: ", event.name);
       this.service.createEvent(event).subscribe(response => {
         console.log("event-modal: creating new event response from service: " + response);
@@ -104,8 +120,9 @@ export class EventModalPage implements OnInit {
       ()=>{
         console.log("evert-modal- create new event, no errors.")
       });
+      */
     }
-    */
+    
   }
   
 }//end class

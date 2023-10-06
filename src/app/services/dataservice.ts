@@ -15,7 +15,50 @@ export class DataService {
   // 'http://mooneycallans.com/crud_api/api/app.php/Tests'
     private dateBaseURL ='http://mooneycallans.com/crud_api/api/app.php/Tests'; // remote DB
     public event! : cpdEvent;
-    
+    public mockCpdEvents : cpdEvent[] = [
+      {
+        id : 0,
+        title : "Jounral Club",
+        description: "Bone MArrow Morphology",
+      hours: 0.5,
+        startdate: new Date('11/9/23'),
+    endDate: new Date('11/9/23'),
+    eventOrganisers: "SVUH HAematology",
+    CPDPoints: 1,
+    compentancyCat: "Internal",
+    reflection: "AML RARA vs Pherpial blood blasts appeard different",
+    learningPlan: 'Review further APML cases',
+    certificate: "Attached"
+      },
+      {
+        id : 1,
+        title : "MDT",
+        description: "Intresting Cases ",
+      hours: 0.5,
+      startdate: new Date('11/9/23'),
+    endDate: new Date('11/9/23'),
+    eventOrganisers: "SVUH HAematology",
+    CPDPoints: 1,
+    compentancyCat: "Internal",
+    reflection: "Accuty fatty liver disease",
+    learningPlan: "Train students",
+    certificate: "Attached" 
+      },
+      {
+        id : 2,
+        title : "Histology MDT",
+        description: "Haem Obc Annes Ward ",
+      hours: 1.5,
+        startdate: new Date('11/10/23'),
+    endDate: new Date('11/10/23'),
+    eventOrganisers: "SVUH HAematology",
+    CPDPoints: 2,
+    compentancyCat: "Internal",
+    reflection: "Annes Day Ward Rounds",
+    learningPlan: "Review morphology",
+    certificate: "Attached"
+      }
+    ]
 
     constructor(private http : HttpClient) {}
 
@@ -23,52 +66,9 @@ export class DataService {
     public getMockCpdEvents():cpdEvent[]{
       //mock ata service for testing
 
-      const mockCpdEvents : cpdEvent[] = [
-        {
-          id : 0,
-          title : "Jounral Club",
-          description: "Bone MArrow Morphology",
-        hours: 0.5,
-          startdate: new Date('11/9/23'),
-      endDate: new Date('11/9/23'),
-      eventOrganisers: "SVUH HAematology",
-      CPDPoints: 1,
-      compentancyCat: "Internal",
-      reflection: "AML RARA vs Pherpial blood blasts appeard different",
-      learningPlan: 'Review further APML cases',
-      certificate: "Attached"
-        },
-        {
-          id : 1,
-          title : "MDT",
-          description: "Intresting Cases ",
-        hours: 0.5,
-        startdate: new Date('11/9/23'),
-      endDate: new Date('11/9/23'),
-      eventOrganisers: "SVUH HAematology",
-      CPDPoints: 1,
-      compentancyCat: "Internal",
-      reflection: "Accuty fatty liver disease",
-      learningPlan: "Train students",
-      certificate: "Attached" 
-        },
-        {
-          id : 2,
-          title : "Histology MDT",
-          description: "Haem Obc Annes Ward ",
-        hours: 1.5,
-          startdate: new Date('11/10/23'),
-      endDate: new Date('11/10/23'),
-      eventOrganisers: "SVUH HAematology",
-      CPDPoints: 2,
-      compentancyCat: "Internal",
-      reflection: "Annes Day Ward Rounds",
-      learningPlan: "Review morphology",
-      certificate: "Attached"
-        }
-      ]
+      
 
-      return mockCpdEvents;
+      return this.mockCpdEvents;
     }
 
 
@@ -101,11 +101,13 @@ export class DataService {
 
   }
 
-  public createNewEntMockData(newEvent : cpdEvent) : cpdEvent[]{
+  public createNewEntMockData(newEvent : cpdEvent) : Observable<cpdEvent[]>{
     // Use fo mock event testing
     
-    this.getMockCpdEvents().push(newEvent);
-    return this.getMockCpdEvents();
+    const newMockArray = this.getMockCpdEvents();
+    newMockArray.push(newEvent);
+    this.mockCpdEvents = newMockArray;
+    return of(newMockArray);
   }
 
   public updateEvent (event : cpdEvent, id : number){

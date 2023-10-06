@@ -379,9 +379,11 @@ removeEvent(id: number){
       .then((
         {data, role}
       )=>{
+        console.log("tab3- reciveinf data : role from createNewMockEv event modal: " + data + " : " + role);
         if (role === 'created'){
           console.log("tabs3.page list: Neew test craeed fomr EventModal, add it to event array : " + data);
-          this.events.push(data);
+          //this.events.push(data);
+          this.events = this.service.getMockCpdEvents();
         }
       });
     }
