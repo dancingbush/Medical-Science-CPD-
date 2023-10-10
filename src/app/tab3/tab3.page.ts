@@ -1,4 +1,4 @@
-import { Component, ViewChild, OnInit } from '@angular/core';
+import { Component, ViewChild, OnInit, ChangeDetectionStrategy, ChangeDetectorRef } from '@angular/core';
 import { cpdEvent } from '../services/interfaces';
 import { FormControl } from '@angular/forms';
 import { DataService } from '../services/dataservice';
@@ -11,6 +11,9 @@ import { debounce, debounceTime } from 'rxjs';
 import { EventModalPage } from '../services/event-modal/event-modal.page';
 import { DiaplyEventModalPage } from '../services/diaply-event-modal/diaply-event-modal.page';
 import { IonItemSliding } from '@ionic/angular';
+import { NgZone} from '@angular/core';
+import { CameraService } from '../services/camera.service';
+
 //import { Storage } from '@ionic/storage';//?out of use
 //import { NativeStorage } from '@ionic-native/native-storage/ngx';
 
@@ -19,7 +22,8 @@ import { IonItemSliding } from '@ionic/angular';
   templateUrl: 'tab3.page.html',
   styleUrls: [
     './styles/tab3.page.scss',
-  './styles/tab3.shell.scss']
+  './styles/tab3.shell.scss'],
+  changeDetection: ChangeDetectionStrategy.Default, // Add this line
 })
 
 export class Tab3Page {
@@ -33,10 +37,12 @@ export class Tab3Page {
   private searchForEvent!: string;
   public scrollToTop : boolean = false;
   //public slidingItem : IonItemSliding = any;
-
+ 
 
 
   constructor(private service : DataService,
+    private cdr: ChangeDetectorRef, //force detect chnages
+    private ngZone : NgZone, // try another form of force detec chnages and upddate list
               //private slidingItem : IonItemSliding,
               private alertCtrl : AlertController,
               private modalCtrl: ModalController,
@@ -102,16 +108,11 @@ ngAfterViewInit(){
          /* Called form html <ion-refresh compnment 
     * tutorial - https://www.freakyjolly.com/ionic-4-pull-to-refresh-functionality-in-ionic-4-x-application/
     */
-        console.log("tab3- refereseh page called - event = " + event);
+        console.log("tab3- refereseh page called - event = " + JSON.stringify(event));
         }
 
       pageTransistion(){
         /**
-         * 
-         NOT USED UNTIL SO ERROR RESOLVED: ionic-native/core now 
-         replaced by @awesome-codova-plugin/..../ngx
-         https://stackoverflow.com/questions/ask
-         
      * Page transition set to flip
      * For other choices or docs, Ctrl Click the method
      * https://github.com/danielsogl/awesome-cordova-plugins
@@ -164,7 +165,7 @@ ngAfterViewInit(){
      
        //Mock up service
        this.events = this.service.getMockCpdEvents();
-       console.log("Got mock data: " + this.events + " title - "+ this.events[0].description);
+       console.log("tab3: getAllEvents called form NgOnIt() - Got mock data: " + JSON.stringify(this.events) + " title - "+ this.events[this.events.length-1].description);
  
        
        this.storage['set'](this.cacheTestData, this.events);
@@ -321,7 +322,7 @@ onSearchinput(){
 
 }
 
-removeEvent(id: number){
+removeEvent(id: number, slidingItem:IonItemSliding){
   // CRUD opeartion to remove event form DB
   console.log("tab3.page: rmove event with id: " + id);
   this.alertCtrl
@@ -342,6 +343,9 @@ removeEvent(id: number){
       ]
     })
     .then(alertE1 => alertE1.present());  
+    if (slidingItem){
+      slidingItem.close()
+    }
     }
 
     openEventModal(event : cpdEvent) {
@@ -370,7 +374,7 @@ removeEvent(id: number){
       console.log("thab3.page- list- Add Event called.")
 
       this.modalCtrl.create({
-        component: EventModalPage
+        component: EventModalPage //  note no compnemntprops args as we are not sending modal data
       })
       .then(modal => {
         modal.present();
@@ -379,24 +383,54 @@ removeEvent(id: number){
       .then((
         {data, role}
       )=>{
-        console.log("tab3- reciveinf data : role from createNewMockEv event modal: " + data + " : " + role);
-        if (role === 'created'){
+        console.log("tab3- reciveinf data : role from createNewMockEv event modal: " + JSON.stringify(data) + " : " + role);
+        if (role == 'created' ){
+          /**
+           * ngZone and cdk. force the list to refresh, not needed if list 
+           * updates as expected whem reote dtabse installed 
+           * 
+           */ 
+
+          this.ngZone.run(()=>
+          {
+
+         
           console.log("tabs3.page list: Neew test craeed fomr EventModal, add it to event array : " + data);
-          //this.events.push(data);
-          this.events = this.service.getMockCpdEvents();
+          this.events.push(data);
+          this.events.filter((event)=>{
+            return true;
+          })
+          // Trailing different things as list wont refresh, tried updated evenst array with opush and also
+          // retunring a new arrau, nothing works
+
+          //const typedData : cpdEvent[] = data;
+          //console.log("tab3-AddEvent- converted data <any> to data<cpdEvent[]: " + JSON.stringify(typedData))
+        //this.events = typedData;
+        //console.log("event-modal: events array now updated to new array: " + JSON.stringify(typedData));
+          //this.events = data;
+          
+          this.cdr.detectChanges();//Manully detced evenst updated as doesnt appear to be happening automatically
+        })//ngZone 
+
+        console.log("tab3: addEvent(): after getting new data now will call get " 
+        + "getAllVents(), should return new array whihc is : " + JSON.stringify(this.events)
+       + " ::: So Now calling getAllEvents to compare : " + JSON.stringify(this.getAllEvents(null)) + " THIS returns this events object : " + JSON.stringify(this.events));
+        
         }
       });
+     
     }
 
     updateEvent(event: cpdEvent, slidingItem : IonItemSliding){
        /* 
        * Rifgt slide - Edit Event
+       * Need slidingItem so we can reset slider to normal
        * We need to pass the event  object ot the 
       * EventModalPage with modalCtrl
       * And we also handle the retuned data from Event Modal Page
       * Use slidingItem to close the HTML slider back to normal firm Edit
       */
-     console.log("tabs3.pg- list: updae event, passing this to EventModal page: " + event.title);
+     console.log("tabs3.pg- list: updae event, passing this to EventModal page: " + event.title + " and event ID = " + event.id);
 
      this.modalCtrl.create({
       component: EventModalPage,

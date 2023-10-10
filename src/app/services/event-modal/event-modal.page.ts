@@ -3,6 +3,7 @@ import { NgForm } from '@angular/forms';
 import { cpdEvent } from '../interfaces';
 import { ModalController } from '@ionic/angular';
 import { DataService } from '../dataservice';
+import { CameraService } from '../camera.service';
 
 /*
 
@@ -20,8 +21,13 @@ for adding, editing, removing events.
   styleUrls: ['./event-modal.page.scss'],
 })
 
-/* Here we present a screen (MODAL) to input a CPD event, and file back to backend DB 
-Use a NgForm to bind to html elemnet and capture submit button */
+/**
+ *  Here we present a screen (MODAL) to input a CPD event, and file back to backend DB 
+   Use a NgForm to bind to html elemnet and capture submit button 
+ * CameraService used to take or pick photo from gallery
+   and store in file system of phone, and base64 url in database
+ *  
+ */
 
 export class EventModalPage implements OnInit {
 
@@ -49,9 +55,9 @@ export class EventModalPage implements OnInit {
 
   constructor(
     private modalCtrl : ModalController, 
-    private service : DataService //CASUES CIRCULAR DEPENDANCY IN TAB3 EVENTS
-    ) { 
-    }
+    private cameraService : CameraService,
+    private service : DataService 
+    ) { }
 
   ngOnInit() {
     /*
@@ -64,8 +70,17 @@ export class EventModalPage implements OnInit {
     console.log("event-modal NgOnIt: tab3 ADD passed event to edit form List: " + this.editEvent.title)
     this.isEdit = true;
     this.uploadEvent = this.editEvent;
+  }else{
+    console.log("event-modal: ngOnOt- did not recive a event to edit form tab3 so this is a new event" 
+    + " ; isEdit = ", this.isEdit )
   }
 
+  }
+
+  public getCertficatePhoto(){
+    // Get photo of certifcate
+
+    this.cameraService.addNewPhotoToDevice();
   }
 
   closeModal(){
@@ -77,12 +92,12 @@ export class EventModalPage implements OnInit {
 
 
   onSubmit(form : NgForm) {
-    console.log("Cpd event fomr submitted");
-    const event = form.value;
+    console.log("even-modal onSubmit(): Cpd event form submitted with event: " + JSON.stringify(form.value));
+    const event : cpdEvent = form.value;
     //this.modalCtrl.dismiss(this.editEvent,'Updated');
 
     if (this.editEvent){
-      console.log("event-mdal: on Submit- updating CPD Event ID: ", this.editEvent.id);
+      console.log("event-modal: on Submit()- updating CPD Event ID: ", this.editEvent.id);
       this.service.updateEvent(event, this.editEvent.id).subscribe(()=>{
         event.id = this.editEvent.id; 
         this.modalCtrl.dismiss(event,"Updated!");
@@ -92,10 +107,11 @@ export class EventModalPage implements OnInit {
     }else{
       // Create a Mock event for testing
       console.log("Creating a Mock event dataservice : " + event.title);
-      this.service.createNewEntMockData(event).subscribe(response => {
+      
+      this.service.createNewEntMockData(event).subscribe((data : cpdEvent) => {
         console.log("event-modal new Evnet: go this array back form " 
-        + "dataservice mockevents:  " + response);
-        this.modalCtrl.dismiss(response,"created");
+        + "dataservice mockevents:  " + data);
+        this.modalCtrl.dismiss(data , "created");
       },
       error=>{
         console.log("event-moal: error creating new mock event: " + JSON.stringify(error));

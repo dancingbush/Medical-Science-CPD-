@@ -65,9 +65,7 @@ export class DataService {
 
     public getMockCpdEvents():cpdEvent[]{
       //mock ata service for testing
-
-      
-
+      console.log("dataservice getMockCDEvetnst- retunring these events : " + JSON.stringify(this.mockCpdEvents));
       return this.mockCpdEvents;
     }
 
@@ -101,13 +99,14 @@ export class DataService {
 
   }
 
-  public createNewEntMockData(newEvent : cpdEvent) : Observable<cpdEvent[]>{
+  public createNewEntMockData(newEvent : cpdEvent) : Observable<cpdEvent>{
     // Use fo mock event testing
-    
-    const newMockArray = this.getMockCpdEvents();
-    newMockArray.push(newEvent);
-    this.mockCpdEvents = newMockArray;
-    return of(newMockArray);
+    console.log("dataservice: createNewNokcData, recuve this event :" + JSON.stringify(newEvent));
+    //const newMockArray = this.getMockCpdEvents();
+    //newMockArray.push(newEvent);
+    //this.mockCpdEvents = newMockArray;
+    //return of(newMockArray);
+    return of(newEvent)
   }
 
   public updateEvent (event : cpdEvent, id : number){

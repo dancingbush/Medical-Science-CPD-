@@ -39,7 +39,17 @@
     </ion-item>
     <ion-item>
       <ion-label position = "floating">Categotory</ion-label>
-      <ion-input required=true [(ngModel)]="uploadEvent.compentancyCat" name = "compentancyCat"></ion-input>
+      <!--<ion-input required=true [(ngModel)]="uploadEvent.compentancyCat" name = "compentancyCat"></ion-input>-->
+      <ion-select [(ngModel)]="uploadEvent.compentancyCat" placeholder="CPD" interface="action-sheet" [multiple]="true">
+        <ion-select-option value="Journal Club">Journal Club</ion-select-option>
+        <ion-select-option value="Research">Research</ion-select-option>
+        <ion-select-option value="Paper">Masters</ion-select-option>
+        <ion-select-option value="Journal Club">Journal Club</ion-select-option>
+        <ion-select-option value="Journal Club">Journal Club</ion-select-option>
+        <ion-select-option value="Journal Club">Journal Club</ion-select-option>
+        <ion-select-option value="Journal Club">Journal Club</ion-select-option>
+
+      </ion-select>
     </ion-item>
     <ion-item>
       <ion-label position = "floating">Reflective Notes</ion-label>
@@ -51,10 +61,7 @@
       <!--<ion-input required=true [(ngModel)]="uploadEvent.learningPlan" name = "learningPlan"></ion-input>-->
       <ion-textarea maxlength="2000"   [(ngModel)]="uploadEvent.learningPlan" autocapitalize="sentences" errorText="check" helperText="Looks good!" required="true"  rows="1" spellcheck="true" placeholder="Think about A B C...." autoGrow="true"  [counter]="true"></ion-textarea>
     </ion-item>
-    <ion-item>
-      <ion-label position = "floating">Upload Certifcate</ion-label>
-      <ion-input required=true [(ngModel)]="uploadEvent.certificate" name = "certificate"></ion-input>
-    </ion-item>
+    
 
     <!--Hoiurs, start and end dates-->
     <ion-item>
@@ -85,15 +92,15 @@
       </ion-accordion-group>
     </ion-list>
     
-    
+    <ion-item-divider></ion-item-divider>
       <!--<ion-input required=true [(ngModel)]="uploadEvent.startdate" name = "startdate"></ion-input>-->
     
     <!--End Date Pciker-->
-    <ion-list>
+    <ion-list >
       <ion-accordion-group >
         <ion-accordion #myAccordion value="start">
           <ion-item slot="header">
-            <ion-label>End Date</ion-label>
+            <ion-label >End Date</ion-label>
             <ion-note slot="end" id="datetimeValue">{{selectedEndDate | date: 'dd/MM/yyyy'}}</ion-note>
           </ion-item>
           <ion-datetime
@@ -111,7 +118,33 @@
         </ion-accordion>
       </ion-accordion-group>
     </ion-list>
-    <ion-button class="ion-margin-top" fill="outline" expand="block"
+
+<!--Camera for certifcate-->
+   
+
+<!-- Button for Capturing Photo 
+<ion-button class="cutom-button" expand="full" (click)="getCertficatePhoto()">
+  <ion-icon slot="start" name="camera"></ion-icon> Capture Certificate Photo
+</ion-button>
+-->
+<!--ion-fab not working a button floatong over opther fields-->
+<ion-item-divider></ion-item-divider>
+<ion-content style="margin-top: 20px; margin-bottom: 20px">
+<ion-fab vertical="center" horizontal="center" slot="fixed">get cert 
+  <ion-fab-button (click)="getCertficatePhoto()">
+    <ion-icon name="camera"></ion-icon>
+  </ion-fab-button>
+</ion-fab>
+</ion-content>
+
+
+
+<!--
+<ion-input required=true [(ngModel)]="uploadEvent.certificate" name = "certificate"></ion-input>
+
+-->
+
+    <ion-button style="margin-top: 20px;" fill="outline" expand="block"
     color="primary" type="submit">{{editEvent ? 'Update' : 'ADD'}}</ion-button>
       </form>
 

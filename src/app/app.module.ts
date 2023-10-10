@@ -16,6 +16,7 @@ import { IonicStorageModule} from '@ionic/storage-angular'
 //import { NativeStorage } from '@ionic-native/native-storage/ngx';
 import { CdkVirtualScrollViewport } from '@angular/cdk/scrolling';
 import { StorageService } from './services/storageservice.service';
+import { CameraService} from './services/camera.service';
 
 //import { Storage } from '@ionic/storage';
 
@@ -39,6 +40,7 @@ import { StorageService } from './services/storageservice.service';
   providers: [
     //NativeStorage,
     StorageService,
+    CameraService,
     
     { provide: RouteReuseStrategy, useClass: IonicRouteStrategy }],
   bootstrap: [AppComponent],

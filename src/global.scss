@@ -63,3 +63,10 @@
     border-radius: 55px;
 
   }
+
+  .custom-button {
+    border-radius: 50%; /* Makes the button round */
+    background-color: gray; /* Sets the background color to gray */
+    color: white; /* Sets the text color to white */
+    padding: 10px 20px; /* Adjust padding as needed for the button's size */
+  }
